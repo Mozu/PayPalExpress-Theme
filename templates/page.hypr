@@ -1,4 +1,4 @@
-{% autoescape on %}
+﻿{% autoescape on %}
 {% block doctype %}
 <!doctype html>
 {% endblock doctype %}
@@ -56,11 +56,11 @@
         {% endif %}
 
         {% block stylesheets %}
-        <link rel="stylesheet" href="{% make_url "stylesheet" "/stylesheets/storefront.less" %}" title="default" />
+        {{ "/stylesheets/storefront.less"|stylesheet_tag:"default" }}
         {% endblock stylesheets %}
         
         {% block head-tag-scripts %}
-        <script src="{% make_url "cdn" "/scripts/vendor/modernizr.min.js" %}"></script>
+        <script src="{{siteContext.cdnPrefix}}/scripts/vendor/modernizr.min.js"></script>
         {% include "modules/web-fonts-loader" %}
         {% endblock head-tag-scripts %}
         {% cms_resources %}
@@ -82,10 +82,6 @@
        
         <div id="page-wrapper" class="mz-l-pagewrapper">
     
-            {% block utility-bar %}
-                {% include "modules/utility-bar/header" %}
-            {% endblock utility-bar %}
-
             {% block page-header %}
             {% include "modules/page-header" %}
             {% endblock page-header %}

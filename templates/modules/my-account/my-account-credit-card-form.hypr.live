@@ -1,16 +1,10 @@
-﻿{% extends "modules/common/credit-card-form" %}
+﻿
+{% extends "modules/common/credit-card-form" %}
 {% block credit-card-form %}
     {% set cardcontext="editingCard." %}
     <li class="mz-accountpaymentmethods-method mz-accountpaymentmethods-form">
     <div class="mz-l-formfieldgroup mz-creditcardform">
     {% parent %}
-    <div class="mz-l-formfieldgroup-row mz-payment-credit-card-defaultflag-row">
-        <div class="mz-l-formfieldgroup-cell"></div>
-        <div class="mz-l-formfieldgroup-cell">
-        <input type="checkbox" id="editingcard-is-primary" {% if model.isDefaultPayMethod %}checked="true"{% endif %} data-mz-value="{{ cardcontext }}isDefaultPayMethod" />
-        <label for="editingcard-is-primary">{{ labels.primary }}</label>
-        </div>
-    </div>
     {% if model.hasSavedContacts %}
     <div class="mz-l-formfieldgroup-row mz-creditcard-billingaddresses">
         <div class="mz-l-formfieldgroup-cell">

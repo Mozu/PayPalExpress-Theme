@@ -1,6 +1,6 @@
-#PayPal Express Theme Integration for Mozu Core8#
+﻿#PayPal Express Theme Integration for Mozu Core6#
 
-This repository contains the full source files for the Mozu Core8 theme, with the required changes to enable PayPal Express on your Mozu storefront. If you are manually upgrading themes that extend earlier versions of the Mozu Core theme (Core4, Core5, Core6, or Core7), you can upgrade your entire theme from this repo. For your convenience, the full readme for Mozu Core Theme Version 8 is included at the bottom of this file.
+This repository contains the full source files for the Mozu Core6 theme, with the required changes to enable PayPal Express on your Mozu storefront. If you are manually upgrading themes that extend earlier versions of the Mozu Core theme (Core4 or Core5), you can upgrade your entire theme from this repo. For your convenience, the full readme for Mozu Core Theme Version 6 is included at the bottom of this file.
 
 ##File Additions and Changes##
 
@@ -18,14 +18,13 @@ And edits the following files:
 * `templates/email/order-refund-issued.hypr`
 * `templates/modules/cart/cart-table.hypr.live`
 * `templates/modules/checkout/checkout-payment.hypr.live`
-* `templates/modules/checkout/payment-selector.hypr.live`
 * `templates/modules/checkout/step-payment-info.hypr.live`
 * `templates/modules/checkout/step-shipping-address.hypr.live`
 * `templates/modules/common/email-address-summary.hypr.live`
 * `templates/modules/web-fonts-loader.hypr`
 * `theme.json`
 
-Refer to the *Upgrading to Mozu Core Theme Version 8* section below for instructions/best practices for a theme upgrade.
+Refer to the *Upgrading to Mozu Core Theme Version 6* section below for instructions/best practices for a theme upgrade.
 
 ##Additional Resources
 * [Mozu PayPal Express Integration Using Arc.js](https://github.com/Mozu/PayPal-Express) (Application Repo)
@@ -39,46 +38,44 @@ Refer to the *Upgrading to Mozu Core Theme Version 8* section below for instruct
 
 # Upgraded Mozu Core Theme
 
-This release includes an upgraded Core theme called **Core8**.
+This release includes an upgraded Core theme called **Core6**.
 
 ## What's New
 
-* A new Express Checkout workflow for quick checkouts
-   - A new Default Payment setting for shoppers to enable Express Checkout
-   - A new optimized Checkout workflow
-* Anonymous order status checkout
-* A new Theme Utility Bar for business users to view the store under different conditions
-   - Future Date Preview so that you can view the future state of your content that has an Active Date Range
-* A brand new SEO-friendly system for navigating categories and search results
-   - A new `{% make_url %}` tag for creating crawlable URLs for every page state
-   - Crawlable pagination links, sorting links, and faceting controls so that Web crawlers can understand more about your product catalog
-   - Efficient, mobile-friendly HTML partial system on category and search pages
-* A dynamic set of "reasons" for online RMAs, replacing the hardcoded set of reasons
-* Numerous bugfixes
-* Other enhancements listed in [Mozu Release Notes](http://developer.mozu.com/sites/default/files/feeds/learn/article_files/MozuQ22015ReleaseNotes.pdf).
+* Dropzones now available in live templates
+* Enhanced `theme-ui.json` to include a new library of theme controls
+* Fixed a number of issues with theme settings in `theme-ui.json`
+* Visual refresh of pagination controls
+* New dropzones in several pages
+* Other enhancements listed in [Mozu Release Notes](http://info.mozu.com/rs/volusion/images/Mozu-ReleaseNotes-q42014.pdf).
 
-## Upgrading to Mozu Core Theme Version 8
+## Upgrading to Mozu Core Theme Version 6
 
-You must manually upgrade themes that extend Core4, Core5, Core6, and Core7 to use Core8 instead. We recommend user acceptance, automated unit, and end-to-end testing of your site to ensure Core8 works for your site.
+You must manually upgrade themes that extend Core4 and Core5 to use Core6 instead. We recommend user acceptance, automated unit, and end-to-end testing of your site to ensure Core6 works for your site.
 
-Use the new [Mozu Theme Generator](http://npmjs.com/package/generator-mozu-theme) to create new themes **and to update existing themes!**
+1.   If you are using the [Mozu Base Blank Theme](https://github.com/mozu/base-blank-theme), then just run `grunt updatereferences` from the command line and skip to step 5.
+2.   Download [Core6](releases) from GitHub.
+3.   If you aren't using source control that allows you to rewind changes, make a backup copy of your theme before proceeding. If you are using source control, we suggest making a branch of your theme.
+4.  Unzip your download and copy it to your theme's `references` directory alongside Core4 and Core5.
 
-0. Examine the [merged Pull Requests](pulls?q=is%3Apr+is%3Aclosed) to see what individual features are coming over from Core.
+    You should have three directories now in `references`: `references/core4`, `references/core5`, and `references/core6`. Because the themes sit side by side with each other, you can easily diff the two themes and reference previous work you've done in Core4 and Core5.
+5.  Change the `extends` property in your `theme.json` to this:
+   ```
+   "extends": "Core6",
+   ```
 
-0. Use the `yo mozu-theme` command to update your theme to inherit from Core8.
+6.  Merge the Core6 version of `stylesheets/storefront.less` with your site's version.
 
-0. Once the generator is complete, you'll have a `references/core8` directory!
+7.  Install your new Core6-based theme on a development sandbox and activate it.
 
-0. Merge the Core8 version of commonly overridden files, such as `stylesheets/storefront.less` and the outer Hypr templates.
+8.  Activate Debug Mode in the storefront by adding the query parameter `debugMode=true` to any storefront URL.
 
-0. Install your new Core8-based theme on a development sandbox and activate it.
+10. Visually examine your theme for problems. 
 
-0. Activate Debug Mode in the storefront by adding the query parameter `debugMode=true` to any storefront URL.
+11. Test your site for issues: view a category, search for products, configure a product, manipulate the cart, check out and place an order, make changes to your account page, etc.
 
-0. Visually examine your theme for problems. 
+12. Make any necessary corrections based on visual errors or console errors.
 
-0. Test your site for issues: view a category, search for products, configure a product, manipulate the cart, check out and place an order, make changes to your account page, etc.
+13. Repeat steps 11 and 12 until your theme is free from errors and regressions.
 
-0. Make any necessary corrections based on visual errors or console errors.
 
-0. Repeat the previous two steps until your theme is free from errors and regressions.

@@ -8,12 +8,6 @@ define(['sdk', 'jquery', 'hyprlive'], function (Mozu, $, Hypr) {
     var apiConfig = require.mozuData('apicontext');
     Mozu.setServiceUrls(apiConfig.urls);
     var api = Mozu.Store(apiConfig.headers).api();
-
-    var extendedPropertyParameters = Hypr.getThemeSetting('extendedPropertyParameters');
-    if (extendedPropertyParameters && Hypr.getThemeSetting('extendedPropertiesEnabled')) {
-        api.setAffiliateTrackingParameters(extendedPropertyParameters.split(','));
-    }
-
     if (Hypr.getThemeSetting('useDebugScripts') || require.mozuData('pagecontext').isDebugMode) {
         api.on('error', function (badPromise, xhr, requestConf) {
             var e = "Error communicating with Mozu web services";

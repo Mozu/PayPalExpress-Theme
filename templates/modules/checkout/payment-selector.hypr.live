@@ -19,7 +19,6 @@
         <div class="mz-l-formfieldgroup-cell">
             <label class="mz-paymentselector-label mz-paymentselector-label-savedcreditcard" for="paymentType-savedcreditcard-{{ paymentId }}">{{ labels.savedCreditCard }}</label>
             <select {% if not model.usingSavedCard %}disabled="true"{% endif %} name="savedPaymentMethods" class="mz-payment-select-saved-payments" data-mz-value="savedPaymentMethodId">
-				<option selected="selected" value="">{{ labels.selectSavedCreditCard }}</option>
                 {% for card in model.savedPaymentMethods %}
                 <option value="{{ card.id }}" {% if model.savedPaymentMethodId == card.id %} selected="selected" {% endif %}>{{ card.cardType }} {{ card.cardNumberPartOrMask }} {{ labels.expires }} {{ card.expireMonth }}/{{ card.expireYear }}</option>
                 {% endfor %}
@@ -79,12 +78,12 @@
                                 </div>
                             {% endif %}
                             {% if name == "paypalexpress2" %}
-                                <img id="btn_xpressPaypal" class="p-button" alt="Check out with PayPal" role="button" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" width="170px" height="32px" align="left" style="margin-right:7px; float:right;"/>                                                      
-                                <script>
-                                    window.paypalCheckoutReady = function() {
+                                <img id="btn_xpressPaypal" alt="Check out with PayPal" class="v-button" role="button" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" width="170px" height="32px" align="left" style="margin-right:7px; float:right;"/>                                                      
+                                    <script>
+                                      window.paypalCheckoutReady = function() {
                                         {% with externalPayment.credentials|findwhere("apiName", "merchantAccountId") as merchantAccountId %}
                                         {% with externalPayment.credentials|findwhere("apiName", "environment") as environment %} 
-                                    
+                                        
                                         paypal.checkout.setup('{{merchantAccountId.value}}', {
                                             environment: '{{environment.value}}',
                                             click: function(event) {
@@ -110,21 +109,18 @@
                                                 });
                                             },
                                             button: ['btn_xpressPaypal']
-                                        });
-                                        {%endwith%}{%endwith%}
-                                    }
-
-                                    if (!window.paypal && !window.PayPalLoaded) {
-                                        window.PayPalLoaded = true;
-                                        jQuery.getScript( "//www.paypalobjects.com/api/checkout.js", function( data, textStatus, jqxhr ) {
-                                          console.log( data ); // Data returned
-                                          console.log( textStatus ); // Success
-                                          console.log( jqxhr.status ); // 200
-                                          console.log( "Load was performed." );
-                                        });
-                                    }
-                                </script>
+                                      });
+                                      {%endwith%}{%endwith%}
+                                      }
+                                  </script>
+                                  <script async src="//www.paypalobjects.com/api/checkout.js"></script>
+                                
                             {%endif%}
+                            {% if name == "paywithamazon" %}
+                                <div class="mz-paymenttype" id="amazonButonPaymentSection">
+                                   
+                                </div>    
+                            {% endif %}
                         </div>
                     </div>
                 {% endwith %}
@@ -145,3 +141,4 @@
     <p>{{ labels.paypalExpressInfo }}</p>
 {% endif %}
 {% endwith %}
+

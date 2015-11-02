@@ -2,11 +2,10 @@
     "about": {
         "author": "Volusion",
         "defaultLanguage": "en-US",
-        "extends": null,
         "isDesktop": true,
         "isMobile": false,
         "isTablet": false,
-        "name": "Core8 8.0.0- PayPal Express",
+        "name": "PPExpressTheme_Core6",
         "allowProduction": true
     },
     "editors": [
@@ -74,74 +73,98 @@
     "emailTemplates": [
         {
             "id": "order.shipped",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/order-shipped",
             "title": "Your Order Has Shipped"
         },
         {
             "id": "order.changed",
             "customEditor": "email-orderconfirmation",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/order-confirmation",
             "title": "Order Confirmation"
         },
         {
             "id": "refund.created",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/order-refund-issued",
             "title": "Refund Issued"
         },
         {
             "id": "return.created",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/product-return-changed",
             "title": "Return Created"
         },
         {
             "id": "return.authorized",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/product-return-authorized",
             "title": "Return Authorized"
         },
         {
             "id": "return.rejected",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/product-return-rejected",
             "title": "Return Request Rejected"
         },
         {
             "id": "return.closed",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/product-return-received",
             "title": "Return Item Received"
         },
         {
             "id": "return.changed",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/product-return-changed",
             "title": "Return Has Been Updated"
         },
         {
             "id": "user.created",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/new-user",
             "title": "Welcome"
         },
         {
             "id": "user.passwordreset",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/password-reset",
             "title": "Password Reset"
         },
         {
             "id": "product.instock",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/product-instock",
             "title": "Back in Stock"
         },
         {
             "id": "giftcard.created",
-            "properties": {},
+            "properties": {
+
+            },
             "template": "email/giftcard-created",
             "title": "Gift Card Created"
         }
@@ -314,20 +337,6 @@
             "userCreatable": false
         },
         {
-            "entityType": "resetPasswordConfirmDetails",
-            "id": "reset_password",
-            "template": "reset-password",
-            "title": "Reset Password",
-            "userCreatable": false
-        },
-        {
-            "entityType": "anonymous_account",
-            "id": "my_anonymous_account",
-            "template": "my-anonymous-account",
-            "title": "Anonymous Order Status",
-            "userCreatable": false
-        },
-        {
             "entityType": "signup",
             "id": "signup",
             "template": "signup",
@@ -343,13 +352,7 @@
         }
     ],
     "settings": {
-        "backofficeDateTimeFormat": "m/d/Y H:i:s O",
-        "extendedPropertiesEnabled": false,
-        "extendedPropertyParameters": "",
-        "isCvvSuppressed": false,
-        "zipCodeEnabled": true,
-        "phoneNumberEnabled": true,
-        "billingEmailEnabled": true,
+        "backofficeDateTimeFormat" :  "m/d/Y H:i:s O",
         "bannerImage": "/resources/images/banner.jpg",
         "bannerImageEnabled": false,
         "bannerImageRepeat": "repeat-x",
@@ -378,7 +381,9 @@
         "primaryFont": "Source Sans Pro",
         "fontSize": "14px",
         "gutterWidth": "25px",
-        "internal-themeAddons": [],
+        "internal-themeAddons": [
+
+        ],
         "itemListingThumbSize": 80,
         "listProductCode": true,
         "listProductShortDesc": true,
@@ -405,7 +410,6 @@
         "showCartItemOptions": true,
         "showCartItemWeight": true,
         "showCategoryFacets": true,
-        "showChildCategoriesInFaceting": true,
         "showCheckoutCommentsField": true,
         "showMSRP": true,
         "showProductDetailMeasurements": true,
@@ -654,8 +658,7 @@
         ],
         "useDebugScripts": false,
         "useSearchAutocomplete": true,
-        "allowCustomerInitiatedReturns": true,
-        "visaCheckoutSdkUrl": "https://sandbox-assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js"
+        "allowCustomerInitiatedReturns": true
     },
     "widgets": [
         {
@@ -757,12 +760,6 @@
                     "fieldLabel": "Number to display",
                     "name": "numberToDisplay",
                     "xtype": "mz-input-number"
-                },
-                {
-                    "anchor": "100%",
-                    "fieldLabel": "Hide Empty Child Nodes",
-                    "name": "hideEmptyChildNodes",
-                    "xtype": "mz-input-checkbox"
                 }
             ],
             "icon": "/resources/admin/widgets/22_category_navigation.png",
@@ -1017,27 +1014,16 @@
             "displayName": "Add This",
             "displayTemplate": "social/addthis",
             "editViewFields": [
+
                 {
                     "xtype": "mz-input-dropdown",
                     "name": "style",
                     "fieldLabel": "AddThis Button Style",
                     "store": [
-                        [
-                            "1",
-                            "small"
-                        ],
-                        [
-                            "2",
-                            "medium"
-                        ],
-                        [
-                            "3",
-                            "large"
-                        ],
-                        [
-                            "4",
-                            "compact"
-                        ]
+                        [ "1", "small" ],
+                        [ "2", "medium" ],
+                        [ "3", "large" ],
+                        [ "4", "compact" ]
                     ]
                 },
                 {

@@ -7,11 +7,10 @@
         },
         initialize: function () {
             // preload images
-            var imageCache = this.imageCache = {},
-                cacheKey = Hypr.engine.options.locals.siteContext.generalSettings.cdnCacheBustKey;
+            var imageCache = this.imageCache = {};
             _.each(this.model.get('content').get('productImages'), function (img) {
                 var i = new Image();
-                i.src = img.imageUrl + '?max=' + Hypr.getThemeSetting('productImagesContainerWidth') + '&_mzCb=' + cacheKey;
+                i.src = img.imageUrl + "?max=" + Hypr.getThemeSetting('productImagesContainerWidth');
                 if (img.altText) {
                     i.alt = img.altText;
                 }

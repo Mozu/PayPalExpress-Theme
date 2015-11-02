@@ -17,26 +17,7 @@
                 }
             ]
         },
-        {
-            "xtype": "panel",
-            "title": "Extended Properties",
-            "collapsed": false,
-            "items": [
-                {
-                    "xtype": "mz-input-checkbox",
-                    "name": "extendedPropertiesEnabled",
-                    "fieldLabel": "Enable Extended Properties (Tracking Strings)"
-                },
-                {
-                    "xtype": "mz-input-textarea",
-                    "name": "extendedPropertyParameters",
-                    "fieldLabel": "Query Parameters (comma separated)"
-                }
-            ]
-        },
-        {
-            "xtype": "panel",
-            "title": "Product Lists",
+        {            "title": "Product Lists",
             "collapsed": false,
             "items": [
                 {
@@ -56,11 +37,6 @@
             "title": "Search",
             "collapsed": false,
             "items": [
-                {
-                    "xtype": "mz-input-checkbox",
-                    "name": "showChildCategoriesInFaceting",
-                    "fieldLabel": "Show two levels of the category hierarchy in faceting"
-                },
                 {
                     "xtype": "mz-input-checkbox",
                     "name": "useSearchAutocomplete",
@@ -92,40 +68,6 @@
                         "30px",
                         "35px"
                     ]
-                }
-            ]
-        },
-        {
-            "xtype": "panel",
-            "title": "Suppress CVV During Express Checkout",
-            "collapsed": false,
-            "items": [
-                {
-                    "xtype": "mz-input-checkbox",
-                    "name": "isCvvSuppressed",
-                    "fieldLabel": "CVV Suppressed"
-                }
-                    ]
-        },
-        {
-            "xtype": "panel",
-            "title": "Anonymous Account Verification Options",
-            "collapsed": false,
-            "items": [
-                {
-                    "xtype": "mz-input-checkbox",
-                    "name": "zipCodeEnabled",
-                    "fieldLabel": "Billing Zip Code"
-                },
-                {
-                    "xtype": "mz-input-checkbox",
-                    "name": "phoneNumberEnabled",
-                    "fieldLabel": "Billing Phone Number"
-                },
-                {
-                    "xtype": "mz-input-checkbox",
-                    "name": "billingEmailEnabled",
-                    "fieldLabel": "Billing Email"
                 }
             ]
         },
@@ -205,13 +147,6 @@
                     "allowBlank": false,
                     "forceSelection": true,
                     "storeFrom": "pageSizeOptions"
-                },
-                {
-                   "fieldLabel": "Default Sort Order",
-                    "xtype": "mz-input-text",
-                    "name": "defaultSort",
-                    "allowBlank": true      ,
-                    "allowOnlyWhitespace":true           
                 }
             ]
         },

@@ -1,4 +1,27 @@
-﻿define(['modules/backbone-mozu', 'hyprlive', 'hyprlivecontext', 'modules/jquery-mozu', 'underscore', 'modules/models-customer', 'modules/views-paging', 'modules/editable-view'], function(Backbone, Hypr, HyprLiveContext, $, _, CustomerModels, PagingViews, EditableView) {
+﻿define(['modules/backbone-mozu', 'hyprlive', 'hyprlivecontext', 'modules/jquery-mozu', 'underscore', 'modules/models-customer', 'modules/views-paging'], function(Backbone, Hypr, HyprLiveContext, $, _, CustomerModels, PagingViews) {
+    
+    var EditableView = Backbone.MozuView.extend({
+        constructor: function () {
+            Backbone.MozuView.apply(this, arguments);
+            this.editing = {};
+        },
+        getRenderContext: function () {
+            var c = Backbone.MozuView.prototype.getRenderContext.apply(this, arguments);
+            c.editing = this.editing;
+            return c;
+        },
+        doModelAction: function (action, payload) {
+            var self = this,
+                renderAlways = function () {
+                    self.render();
+                };
+            var operation = this.model[action](payload);
+            if (operation && operation.then) {
+                operation.then(renderAlways, renderAlways);
+                return operation;
+            }
+        }
+    });
 
     var AccountSettingsView = EditableView.extend({
         templateName: 'modules/my-account/my-account-settings',
@@ -215,7 +238,6 @@
     var PaymentMethodsView = EditableView.extend({
         templateName: "modules/my-account/my-account-paymentmethods",
         autoUpdate: [
-            'editingCard.isDefaultPayMethod',
             'editingCard.paymentOrCardType',
             'editingCard.nameOnCard',
             'editingCard.cardNumberPartOrMask',
@@ -241,7 +263,6 @@
             'editingContact.isPrimaryShippingContact'
         ],
         renderOnChange: [
-            'editingCard.isDefaultPayMethod',
             'editingCard.contactId',
             'editingContact.address.countryCode'
         ],

@@ -1,7 +1,7 @@
     <h3 class="mz-formstep-header">
         {{ labels.shippingMethod }}
          {% if model.requiresFulfillmentInfo %}
-        <a href="javascript:;" class="mz-formstep-edit" data-mz-action="edit">{{ labels.change }}</a>
+        <button class="mz-button mz-button-small mz-formstep-edit" data-mz-action="edit">{{ labels.edit }}</button>
         {% endif %}
     </h3>
     <div class="mz-formstep-body">

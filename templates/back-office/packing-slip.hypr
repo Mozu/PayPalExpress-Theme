@@ -25,7 +25,7 @@
                 {% if order.billingInfo.billingContact.address.address2 %}<div>{{ order.billingInfo.billingContact.address.address2 }}</div>{% endif %}
                 {% if order.billingInfo.billingContact.address.address3 %}<div>{{ order.billingInfo.billingContact.address.address3 }}</div>{% endif %}
                 {% if order.billingInfo.billingContact.address.address4 %}<div>{{ order.billingInfo.billingContact.address.address4 }}</div>{% endif %}
-                {% if order.billingInfo.billingContact.address.cityOrTown %}<div>{{ order.billingInfo.billingContact.address.cityOrTown }}, {{ order.billingInfo.billingContact.address.stateOrProvince }} {{ order.billingInfo.billingContact.address.postalOrZipCode }}</div>{% endif %}
+                <div>{{ order.billingInfo.billingContact.address.cityOrTown }}, {{ order.billingInfo.billingContact.address.stateOrProvince }} {{ order.billingInfo.billingContact.address.postalOrZipCode }}</div>
                 {% if order.billingInfo.billingContact.phoneNumbers.home %}<div>{{ order.billingInfo.billingContact.phoneNumbers.home }} (home)</div>{% endif %}
                 {% if order.billingInfo.billingContact.phoneNumbers.work %}<div>{{ order.billingInfo.billingContact.phoneNumbers.work }} (work)</div>{% endif %}
                {% if order.billingInfo.billingContact.phoneNumbers.mobile %}<div>{{ order.billingInfo.billingContact.phoneNumbers.mobile }} (mobile)</div>{% endif %}
@@ -69,7 +69,7 @@
             <td>{{ model.shippingMethodName }}</td>
         </tr></tbody>
     </table>
-    <table class="grid">
+    <table class="grid">		
         <thead><tr>
             <th>Product Code</th>
             <th>Product Name</th>
@@ -80,17 +80,17 @@
         {% for item in model.items %} <!-- model represents the package -->
            <tr>
                 <td>
-                    {{ item.productCode }}
-                </td>
-                <td>
+					{{ item.productCode }}
+				</td>
+				<td>
                     <div class="product-name">{{ item.productname }}</div>
                 </td>
                 <td>
-                    {{ item.quantity }}
-                </td>
-                <td>
-                    {{ item.adjustedweight.value }} {{ item.adjustedweight.unit }}
-                </td>
+					{{ item.quantity }}
+				</td>
+				<td>
+					{{ item.adjustedweight.value }} {{ item.adjustedweight.unit }}
+				</td>
             </tr>
         {% endfor %}
         </tbody>

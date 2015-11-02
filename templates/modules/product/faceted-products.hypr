@@ -1,5 +1,4 @@
-﻿{% if not pageContext.query.partial %}
-<script type="text/json" id="data-mz-preload-facetedproducts">
+﻿<script type="text/json" id="data-mz-preload-facetedproducts">
 {
 	"facets": {% json model.facets %}, 
 	"currentPage": {{ model.currentPage }},
@@ -15,7 +14,7 @@
 	"currentSort": "{{ model.currentSort }}"
 }
 </script>
-{% endif %}
+
 {% if model.facets %}
 <div data-mz-facets class="mz-l-sidebar">
 	{% dropzone "sidebar-above-facets" scope="template" %}

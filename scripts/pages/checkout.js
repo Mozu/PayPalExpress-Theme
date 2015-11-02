@@ -1,19 +1,15 @@
-require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu", "modules/models-checkout", "modules/views-messages", "modules/cart-monitor", 'hyprlivecontext', 'modules/editable-view', 'modules/preserve-element-through-render'], function ($, _, Hypr, Backbone, CheckoutModels, messageViewFactory, CartMonitor, HyprLiveContext, EditableView, preserveElements) {
+﻿require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu", "modules/models-checkout", "modules/views-messages", "modules/cart-monitor", 'hyprlivecontext', 'modules/preserve-element-through-render'], function ($, _, Hypr, Backbone, CheckoutModels, messageViewFactory, CartMonitor, HyprLiveContext, preserveElements) {
 
-    var CheckoutStepView = EditableView.extend({
+    var CheckoutStepView = Backbone.MozuView.extend({
         edit: function () {
             this.model.edit();
         },
         next: function () {
             // wait for blur validation to complete
             var me = this;
-            me.editing.savedCard = false;
             _.defer(function () {
                 me.model.next();
             });
-        },
-        cancel: function(){
-            this.model.cancelStep();
         },
         choose: function () {
             var me = this;
@@ -21,12 +17,12 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
         },
         constructor: function () {
             var me = this;
-            EditableView.apply(this, arguments);
+            Backbone.MozuView.apply(this, arguments);
             me.resize();
             setTimeout(function () {
-                me.$('.mz-panel-wrap').css({ 'overflow-y': 'hidden'});
+                me.$('.mz-panel-wrap').css({ 'overflow-y': 'hidden' });
             }, 250);
-            me.listenTo(me.model,'stepstatuschange', me.render, me);
+            me.listenTo(me.model, 'stepstatuschange', me.render, me);
             me.$el.on('keypress', 'input', function (e) {
                 if (e.which === 13) {
                     me.handleEnterKey(e);
@@ -34,7 +30,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
                 }
             });
         },
-        initStepView: function() {
+        initStepView: function () {
             this.model.initStep();
         },
         handleEnterKey: function (e) {
@@ -42,12 +38,12 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
         },
         render: function () {
             this.$el.removeClass('is-new is-incomplete is-complete is-invalid').addClass('is-' + this.model.stepStatus());
-            EditableView.prototype.render.apply(this, arguments);
+            Backbone.MozuView.prototype.render.apply(this, arguments);
             this.resize();
         },
         resize: _.debounce(function () {
-            this.$('.mz-panel-wrap').animate({'height': this.$('.mz-inner-panel').outerHeight() });
-        },200)
+            this.$('.mz-panel-wrap').animate({ 'height': this.$('.mz-inner-panel').outerHeight() });
+        }, 200)
     });
 
     var OrderSummaryView = Backbone.MozuView.extend({
@@ -60,7 +56,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
         editCart: function () {
             window.location = "/cart";
         },
-        
+
         onOrderCreditChanged: function (order, scope) {
             this.render();
         },
@@ -105,8 +101,6 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
         }
     });
 
-    var visaCheckoutSettings = HyprLiveContext.locals.siteContext.checkoutSettings.visaCheckout;
-    var pageContext = require.mozuData('pagecontext');
     var BillingInfoView = CheckoutStepView.extend({
         templateName: 'modules/checkout/step-payment-info',
         autoUpdate: [
@@ -138,21 +132,20 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
             'digitalCreditCode'
         ],
         renderOnChange: [
+            'savedPaymentMethodId',
             'billingContact.address.countryCode',
             'paymentType',
-            'isSameBillingShippingAddress',
-            'usingSavedCard'
+            'isSameBillingShippingAddress'
         ],
         additionalEvents: {
             "change [data-mz-digital-credit-enable]": "enableDigitalCredit",
             "change [data-mz-digital-credit-amount]": "applyDigitalCredit",
             "change [data-mz-digital-add-remainder-to-customer]": "addRemainderToCustomer"
         },
-
         initialize: function () {
             this.listenTo(this.model, 'change:digitalCreditCode', this.onEnterDigitalCreditCode, this);
             this.listenTo(this.model, 'orderPayment', function (order, scope) {
-                    this.render();
+                this.render();
             }, this);
             this.codeEntered = !!this.model.get('digitalCreditCode');
         },
@@ -161,36 +154,9 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
                 CheckoutStepView.prototype.render.apply(this, arguments);
             });
             var status = this.model.stepStatus();
-            if (visaCheckoutSettings.isEnabled && !this.visaCheckoutInitialized && this.$('.v-button').length > 0) {
-                window.onVisaCheckoutReady = _.bind(this.initVisaCheckout, this);
-                require([pageContext.visaCheckoutJavaScriptSdkUrl]);
-                this.visaCheckoutInitialized = true;
-            }
         },
         updateAcceptsMarketing: function() {
             this.model.getOrder().set('acceptsMarketing', $(e.currentTarget).prop('checked'));
-        },
-        updatePaymentType: function(e) {
-            var newType = $(e.currentTarget).val();
-            this.model.set('usingSavedCard', e.currentTarget.hasAttribute('data-mz-saved-credit-card'));
-            this.model.set('paymentType', newType);
-        },
-        beginEditingCard: function() {
-            var me = this;
-            var isVisaCheckout = this.model.visaCheckoutFlowComplete();
-            if (!isVisaCheckout) {
-            this.editing.savedCard = true;
-            this.render();
-            } else if (window.confirm(Hypr.getLabel('visaCheckoutEditReminder'))) {
-                this.doModelAction('cancelVisaCheckout').then(function() {
-                    me.editing.savedCard = false;
-                    me.render();
-                });
-            }
-        },
-        beginEditingBillingAddress: function() {
-            this.editing.savedBillingAddress = true;
-            this.render();
         },
         beginApplyCredit: function () {
             this.model.beginApplyCredit();
@@ -202,7 +168,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
         },
         finishApplyCredit: function () {
             var self = this;
-            this.model.finishApplyCredit().then(function() {
+            this.model.finishApplyCredit().then(function () {
                 self.render();
             });
         },
@@ -225,7 +191,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
             var result = parseFloat(val.replace(/[^\d\.]/g, ''));
             return isNaN(result) ? 0 : result;
         },
-        applyDigitalCredit: function(e) {
+        applyDigitalCredit: function (e) {
             var val = $(e.currentTarget).prop('value'),
                 creditCode = $(e.currentTarget).attr('data-mz-credit-code-target');  //target
             if (!creditCode) {
@@ -233,11 +199,11 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
                 return;
             }
             var amtToApply = this.stripNonNumericAndParseFloat(val);
-            
+
             this.model.applyDigitalCredit(creditCode, amtToApply, true);
             this.render();
         },
-        onEnterDigitalCreditCode: function(model, code) {
+        onEnterDigitalCreditCode: function (model, code) {
             if (code && !this.codeEntered) {
                 this.codeEntered = true;
                 this.$el.find('button').prop('disabled', false);
@@ -247,7 +213,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
                 this.$el.find('button').prop('disabled', true);
             }
         },
-        enableDigitalCredit: function(e) {
+        enableDigitalCredit: function (e) {
             var creditCode = $(e.currentTarget).attr('data-mz-credit-code-source'),
                 isEnabled = $(e.currentTarget).prop('checked') === true,
                 targetCreditAmtEl = this.$el.find("input[data-mz-credit-code-target='" + creditCode + "']"),
@@ -276,43 +242,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
                 case "digitalCreditCode":
                     return this.getDigitalCredit(e);
             }
-        },
-        /* begin visa checkout */
-        initVisaCheckout: function () {
-            var me = this;
-            var visaCheckoutSettings = HyprLiveContext.locals.siteContext.checkoutSettings.visaCheckout;
-            var apiKey = visaCheckoutSettings.apiKey || '0H1JJQFW9MUVTXPU5EFD13fucnCWg42uLzRQMIPHHNEuQLyYk';
-            var clientId = visaCheckoutSettings.clientId || 'mozu_test1';
-            var orderModel = this.model.getOrder();
-
-            // on success, attach the encoded payment data to the window
-            // then call the sdk's api method for digital wallets, via models-checkout's helper
-            V.on("payment.success", function(payment) {
-                console.log({ success: payment });
-                me.editing.savedCard = false;
-                me.model.parent.processDigitalWallet('VisaCheckout', payment);
-            });
-
-            // for debugging purposes only. don't use this in production
-            V.on("payment.cancel", function(payment) {
-                console.log({ cancel: JSON.stringify(payment) });
-            });
-
-            // for debugging purposes only. don't use this in production
-            V.on("payment.error", function(payment, error) {
-                console.warn({ error: JSON.stringify(error) });
-            });
-
-            V.init({
-                apikey: apiKey,
-                clientId: clientId,
-                paymentRequest: {
-                    currencyCode: orderModel.get('currencyCode'),
-                    subtotal: "" + orderModel.get('total')
-            }
-            });
         }
-        /* end visa checkout */
     });
 
     var CouponView = Backbone.MozuView.extend({
@@ -352,7 +282,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
             // but scoped to this button alone
             var self = this;
             this.$el.addClass('is-loading');
-            this.model.addCoupon().ensure(function() {
+            this.model.addCoupon().ensure(function () {
                 self.$el.removeClass('is-loading');
                 self.model.unset('couponCode');
                 self.render();
@@ -389,7 +319,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
                     return false;
                 }
             });
-            this.model.on('passwordinvalid', function(message) {
+            this.model.on('passwordinvalid', function (message) {
                 me.$('[data-mz-validationmessage-for="password"]').text(message);
             });
             this.model.on('userexists', function (user) {
@@ -470,7 +400,7 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
                     el: $('#comments-field'),
                     model: checkoutModel
                 }),
-                
+
                 reviewPanel: new ReviewOrderView({
                     el: $('#step-review'),
                     model: checkoutModel
@@ -483,13 +413,13 @@ require(["modules/jquery-mozu", "underscore", "hyprlive", "modules/backbone-mozu
 
         window.checkoutViews = checkoutViews;
 
-        checkoutModel.on('complete', function() {
+        checkoutModel.on('complete', function () {
             CartMonitor.setCount(0);
             window.location = "/checkout/" + checkoutModel.get('id') + "/confirmation";
         });
 
         var $reviewPanel = $('#step-review');
-        checkoutModel.on('change:isReady',function (model, isReady) {
+        checkoutModel.on('change:isReady', function (model, isReady) {
             if (isReady) {
                 setTimeout(function () { window.scrollTo(0, $reviewPanel.offset().top); }, 750);
             }

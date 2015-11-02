@@ -13,7 +13,7 @@
   <tr class="mz-carttable-item">
     <td class="mz-carttable-item-product">
       {% if item.product.imageUrl and themeSettings.showCartItemImage %}
-          <img class="mz-carttable-item-image" src="{% make_url "image" item.product with max=80 as_parameters %}" {% if item.product.imageAlternateText %}alt="{{ item.product.imageAlternateText }}"{% endif %} />
+          <img class="mz-carttable-item-image" src="{{ item.product.imageUrl }}?max=80" {% if item.product.imageAlternateText %}alt="{{ item.product.imageAlternateText }}"{% endif %} />
       {% endif %}
       <div class="mz-carttable-item-info-wrap{% if not item.product.imageUrl %} mz-no-image{% endif %}">
         <a class="mz-carttable-item-title" href="{{item.product.url}}">{{ item.product.name }}</a>
@@ -112,11 +112,8 @@
               {% for externalPayment in siteContext.checkoutSettings.externalPaymentWorkflowSettings %}
                   {% if externalPayment.isEnabled %}
                   <div class="mz-carttable-thirdpartypayment" >
-                    {% if externalPayment.name == "VisaCheckout" %}
-                      <img alt="Visa Checkout" class="v-button" role="button" src="{{pageContext.visaCheckoutButtonUrl}}"/>
-                    {%endif%}
                     {% if externalPayment.name == "PayPalExpress2" %}                        
-                      <img id="btn_xpressPaypal" class="p-button" alt="Check out with PayPal" role="button" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" width="170px" height="32px" align="left" style="margin-top:12px; float:right;"/>                                                   
+                      <img id="btn_xpressPaypal" class="p-button" alt="Check out with PayPal" role="button" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" width="170px" height="32px" align="left" style="margin-top:12px; float:right; cursor: pointer;"/>                                                   
                       {% require_script "modules/xpressPaypal" %}
                     {%endif%}
                   </div>  
