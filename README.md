@@ -1,6 +1,9 @@
 ﻿#PayPal Express Theme Integration for Mozu Core6#
 
-This repository contains the full source files for the Mozu Core6 theme, with the required changes to enable PayPal Express on your Mozu storefront. If you are manually upgrading themes that extend earlier versions of the Mozu Core theme (Core4 or Core5), you can upgrade your entire theme from this repo. For your convenience, the full readme for Mozu Core Theme Version 6 is included at the bottom of this file.
+This repository is a branch of the PayPalExpress-Theme repository, provided for backwards-compatibility. This repository contains the full source files for the Mozu Core6 theme, with the required changes to enable PayPal Express on your Mozu storefront.
+For your convenience, the full readme for Mozu Core Theme Version 6 is included at the bottom of this file.
+
+**Note:** This repo is NOT using the latest version of the Mozu Core theme. If you want to update your Mozu theme to match the latest Core, go to the master PayPalExpress-Theme repository.
 
 ##File Additions and Changes##
 
@@ -30,7 +33,6 @@ Refer to the *Upgrading to Mozu Core Theme Version 6* section below for instruct
 * [Mozu PayPal Express Integration Using Arc.js](https://github.com/Mozu/PayPal-Express) (Application Repo)
 * [PayPal Express Configuration Guide](http://mozu.github.io/IntegrationDocuments/PayPalExpress/Mozu-PayPalExpress-App.htm) (App Documentation)
 * [Mozu Theme Development Quickstart] (http://developer.mozu.com/content/learn/themedev/quickstart/create-your-first-theme.htm) (Mozu Documentation)
-* [Intro to Arc.js](http://developer.mozu.com/content/arcjs/Arcjs_Intro.htm) (Mozu Documentation)
 * [Comparing commits across time](https://help.github.com/articles/comparing-commits-across-time/) (GitHub Help) 
 
 ----------------------------------------------------
