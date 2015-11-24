@@ -28,8 +28,8 @@
            <tr>
 
                 <td>
-                    <b>{{ labels.billingInformation }}</b>:<br><br>
                     {% if model.billingInfo.paymentType|lower != "paypalexpress2"  %}
+                        <b>{{ labels.billingInformation }}</b>:<br><br>
                         {% include "modules/common/email-address-summary" with model=model.billingInfo.billingContact %}<br><br>
                     {% endif %}    
                     {% if model.billingInfo.paymentType == "CreditCard" %}
