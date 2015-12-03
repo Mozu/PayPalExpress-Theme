@@ -850,7 +850,7 @@
                     paymentTypeIsPayPalNew = activePayments && !!_.findWhere(activePayments, { paymentType: 'PayPalExpress2' }),
                     balanceNotPositive = this.parent.get('amountRemainingForPayment') <= 0;
 
-                if (this.isMozuCheckout() || paymentTypeIsPayPalNew) return this.stepStatus("complete");
+                if (paymentTypeIsPayPalNew) return this.stepStatus("complete");
                 if (paymentTypeIsCard && !Hypr.getThemeSetting('isCvvSuppressed')) return this.stepStatus('incomplete'); // initial state for CVV entry
 
                 if (!fulfillmentComplete) return this.stepStatus('new');
